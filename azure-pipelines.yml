@@ -1,5 +1,5 @@
 # Docker
-# Build and push an image to Azure Container Registry
+# Build a Docker image 
 # https://docs.microsoft.com/azure/devops/pipelines/languages/docker
 
 trigger:
@@ -9,31 +9,30 @@ resources:
 - repo: self
 
 variables:
-  # Container registry service connection established during pipeline creation
-  dockerRegistryServiceConnection: '{{ containerRegistryConnection.Id }}'
-  imageRepository: '{{#toAlphaNumericString imageRepository 50}}{{/toAlphaNumericString}}'
-  containerRegistry: '{{ containerRegistryConnection.Authorization.Parameters.loginServer }}'
-  dockerfilePath: '{{ dockerfilePath }}'
-  tag: '$(Build.BuildId)'
-  
-  # Agent VM image name
-  vmImageName: 'ubuntu-latest'
+  dockerId: 'avalier.azurecr.io'
+  dockerImageName: 'avalier-todo-be'
+  dockerImageLabel: '$(Build.BuildId)'
+  tag: '$(dockerId)/${dockerImageName}:$(dockerImageLabel)'
 
 stages:
 - stage: Build
-  displayName: Build and push stage
+  displayName: Build image
   jobs:  
   - job: Build
     displayName: Build
     pool:
-      vmImage: $(vmImageName)
+      vmImage: 'ubuntu-latest'
     steps:
+    #- script: |
+    #    #docker build -t $(dockerId)/$(imageName) .
+    #    docker login -u $(dockerId) -p $(pswd)
+    #    #docker push $(dockerId)/$(imageName)
+    #  env:
+    #    pswd: $(dockerPassword) 
     - task: Docker@2
-      displayName: Build and push an image to container registry
+      displayName: Build an image
       inputs:
-        command: buildAndPush
-        repository: $(imageRepository)
-        dockerfile: $(dockerfilePath)
-        containerRegistry: $(dockerRegistryServiceConnection)
+        command: build
+        dockerfile: 'src/Dockerfile'
         tags: |
           $(tag)

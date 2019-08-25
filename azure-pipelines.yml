@@ -13,7 +13,7 @@ variables:
   dockerImageName: 'avalier-todo-be'
   dockerImageLabel: '$(Build.BuildId)'
   tag: '$(dockerId)/${dockerImageName}:$(dockerImageLabel)'
-  dockerRegistryServiceConnectionId: '{{ azureDockerRegistry }}'
+  dockerRegistryServiceConnectionId: '{{ dockerRegistryServiceConnection }}'
 
 stages:
 - stage: Build
@@ -34,7 +34,7 @@ stages:
       displayName: Login to ACR
       inputs:
         command: login
-        containerRegistry: $(dockerRegistryServiceConnection)
+        containerRegistry: $(dockerRegistryServiceConnectionId)
     - task: Docker@2
       displayName: Build an image
       inputs:

@@ -22,7 +22,7 @@ stages:
     pool:
       vmImage: $(vmImageName)
     steps:
-    - bash: |
+    - script: |
         echo dockerId: $(dockerId)
         echo tag: $(tag)
       displayName: Show variables

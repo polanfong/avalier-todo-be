@@ -33,12 +33,16 @@ stages:
         containerRegistry: dockerRegistryServiceConnection
 
     - script: |
+        sudo apt-get -y install trivy
+      displayName: Docker - Trivy Installation (Container Security Analysis by Aquasec)
+
+    - script: |
         docker build -t '$(dockerId)/$(dockerImageName):latest' ./src
       displayName: Docker - Build
 
     - script: |
-       apt-get install trivy
-      displayName: Docker - Trivy Installation (Container Security Analysis by Aquasec)
+        trivy '$(dockerId)/$(dockerImageName):latest'
+      displayName: Docker - Trivy Execution (Container Security Analysis by Aquasec)
 
     - script: |
         docker tag '$(dockerId)/$(dockerImageName):latest' '$(dockerId)/$(dockerImageName):$(Build.BuildNumber)'

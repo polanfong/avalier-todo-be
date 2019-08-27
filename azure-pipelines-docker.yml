@@ -50,13 +50,13 @@ stages:
       displayName: Docker - Build
 
     - script: |
-        trivy --cache-dir '$(trivyCachePath)' '$(dockerId)/$(dockerImageName):$(Build.BuildNumber)'
-      displayName: Docker - Trivy Execution (Container Security Analysis by Aquasec)
-
-    - script: |
         docker tag '$(dockerId)/$(dockerImageName):latest' '$(dockerId)/$(dockerImageName):$(Build.BuildNumber)'
         docker tag '$(dockerId)/$(dockerImageName):latest' '$(dockerId)/$(dockerImageName):$(Build.SourceVersion)'
       displayName: Docker - Tag
+
+    - script: |
+        trivy --cache-dir '$(trivyCachePath)' '$(dockerId)/$(dockerImageName):$(Build.BuildNumber)'
+      displayName: Docker - Trivy Execution (Container Security Analysis by Aquasec)
 
     - script: |
         docker image list | grep $(dockerId)

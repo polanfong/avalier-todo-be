@@ -22,7 +22,9 @@ stages:
     pool:
       vmImage: $(vmImageName)
     steps:
-    - script: printenv
+    - script: |
+        echo dockerId: $(dockerId)
+        echo Tag: $(tag)
 
     #steps:
     #- task: Docker@2

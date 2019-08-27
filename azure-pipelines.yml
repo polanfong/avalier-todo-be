@@ -36,6 +36,21 @@ stages:
         docker rm test-stage
       displayName: 'Docker - Extract Test Results'
 
+    - task: PublishTestResults@2
+      inputs:
+        testResultsFormat: 'VSTest'
+        testResultsFiles: '**/test*.xml'
+        searchFolder: '$(System.DefaultWorkingDirectory)/test'
+        publishRunAttachments: true
+      displayName: 'Testing - Publish Results'
+
+    #- task: PublishCodeCoverageResults@1
+    #  inputs:
+    #    codeCoverageTool: 'cobertura'
+    #    summaryFileLocation: '$(System.DefaultWorkingDirectory)/test/coverage/coverage.cobertura.xml'
+    #    reportDirectory: '$(System.DefaultWorkingDirectory)/test/coverage/reports'
+    #  displayName: 'Coverage - Publish Results'
+
     #- script: |
     #    sudo apt-get -y install rpm
     #    wget https://github.com/aquasecurity/trivy/releases/download/v0.1.6/trivy_0.1.6_Linux-64bit.deb

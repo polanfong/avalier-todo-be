@@ -10,8 +10,11 @@ variables:
   tag: '$(dockerId)/${dockerImageName}:$(dockerImageLabel)'
   dockerRegistryServiceConnectionId: '{{ dockerRegistryServiceConnection }}'
 
-jobs:
-- job: Build
-  displayName: Build
-  steps:
-  - script: printenv
+stages:
+- stage: Build
+  displayName: Build and push stage
+  jobs:
+  - job: Build
+    displayName: Build
+    steps:
+    - script: printenv

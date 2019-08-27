@@ -9,7 +9,6 @@ variables:
   vmImageName: 'ubuntu-latest'
   dockerId: 'avalier.azurecr.io'
   dockerImageName: 'avalier-todo-be'
-  dockerImageLabel: '$(Build.BuildId)'
   dockerRegistryServiceConnectionId: '{{ dockerRegistryServiceConnection }}'
 
 stages:
@@ -34,7 +33,7 @@ stages:
         docker build -t '$(dockerId)/$(dockerImageName):latest' ./src
       displayName: Docker - Build
     - script: |
-        docker tag '$(dockerId)/$(dockerImageName):latest' '$(dockerId)/$(dockerImageName):$(dockerImageLabel)'
+        docker tag '$(dockerId)/$(dockerImageName):latest' '$(dockerId)/$(dockerImageName):$(Build.BuildNumber)'
         docker tag '$(dockerId)/$(dockerImageName):latest' '$(dockerId)/$(dockerImageName):$(Build.SourceVersion)'
       displayName: Docker - Tag
     - script: |
@@ -48,5 +47,5 @@ stages:
         repository: '$(dockerImageName)'
         tags: |
           latest
-          $(dockerImageLabel)
+          $(Build.BuildNumber)
           $(Build.SourceVersion)

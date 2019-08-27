@@ -14,8 +14,8 @@ variables:
   dockerRegistryServiceConnectionId: '{{ dockerRegistryServiceConnection }}'
 
 stages:
-- stage: Build
-  displayName: Build and push stage
+- stage: CI
+  displayName: Build and push
   jobs:  
   - job: Build
     displayName: Build
@@ -27,11 +27,6 @@ stages:
         echo tag: $(tag)
       displayName: Show variables
     - task: Docker@2
-      displayName: Docker - Login
-      inputs:
-        command: login
-        containerRegistry: dockerRegistryServiceConnection
-    - task: Docker@2
       displayName: Docker - Build
       inputs:
         command: build
@@ -39,6 +34,14 @@ stages:
         tags: |
           latest
           $(dockerImageLabel)
+    - script: |
+        docker image list
+      displayName: Docker - Debug
+    - task: Docker@2
+      displayName: Docker - Login
+      inputs:
+        command: login
+        containerRegistry: dockerRegistryServiceConnection
     - task: Docker@2
       displayName: Docker - Push
       inputs:

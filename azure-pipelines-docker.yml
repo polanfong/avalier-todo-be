@@ -35,6 +35,7 @@ stages:
       displayName: Docker - Build
     - script: |
         docker tag '$(dockerId)/$(dockerImageName):latest' '$(dockerId)/$(dockerImageName):$(dockerImageLabel)'
+        docker tag '$(dockerId)/$(dockerImageName):latest' '$(dockerId)/$(dockerImageName):$(Build.SourceVersion)'
       displayName: Docker - Tag
     - script: |
         docker image list | grep avalier
@@ -46,5 +47,6 @@ stages:
         containerRegistry: dockerRegistryServiceConnection
         repository: '$(dockerImageName)'
         tags: |
-          $(dockerImageLabel)
           latest
+          $(dockerImageLabel)
+          $(Build.SourceVersion)

@@ -40,7 +40,7 @@ stages:
       inputs:
         testResultsFormat: 'xUnit'
         testResultsFiles: '**/test*.xml'
-        searchFolder: '$(System.DefaultWorkingDirectory)/test'
+        searchFolder: '$(System.DefaultWorkingDirectory)'
         publishRunAttachments: true
       displayName: 'Testing - Publish Results'
 

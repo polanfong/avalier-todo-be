@@ -35,7 +35,16 @@ stages:
       displayName: Docker - Build
       inputs:
         command: build
-        repository: '$(dockerId)/$(dockerImageName)'
+        repository: '$(dockerImageName)'
+        tags: |
+          latest
+          $(dockerImageLabel)
+    - task: Docker@2
+      displayName: Docker - Push
+      inputs:
+        command: push
+        containerRegistry: dockerRegistryServiceConnection
+        repository: '$(dockerImageName)'
         tags: |
           latest
           $(dockerImageLabel)

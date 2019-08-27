@@ -38,7 +38,7 @@ stages:
 
     - task: PublishTestResults@2
       inputs:
-        testResultsFormat: 'VSTest'
+        testResultsFormat: 'xUnit'
         testResultsFiles: '**/test*.xml'
         searchFolder: '$(System.DefaultWorkingDirectory)/test'
         publishRunAttachments: true

@@ -38,6 +38,7 @@ stages:
     #    key: trivy | $(Agent.OS)
     #    path: $(trivyCachePath)
     #  displayName: Docker - Trivy Caching (Container Security Analysis by Aquasec)
+    #--cache-dir '$(trivyCachePath)'
 
     - script: |
         sudo apt-get -y install rpm
@@ -55,7 +56,7 @@ stages:
       displayName: Docker - Tag
 
     - script: |
-        trivy --only-update alpine --cache-dir '$(trivyCachePath)' '$(dockerId)/$(dockerImageName):$(Build.BuildNumber)'
+        trivy --only-update alpine '$(dockerId)/$(dockerImageName):$(Build.BuildNumber)'
       displayName: Docker - Trivy Execution (Container Security Analysis by Aquasec)
 
     - script: |

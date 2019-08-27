@@ -24,7 +24,9 @@ stages:
     steps:
     - script: |
         echo dockerId: $(dockerId)
-        echo Tag: $(tag)
+        echo tag: $(tag)
+        echo registry: $(dockerRegistryServiceConnectionId)
+        
 
     #steps:
     #- task: Docker@2

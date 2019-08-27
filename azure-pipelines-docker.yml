@@ -33,27 +33,20 @@ stages:
         command: login
         containerRegistry: dockerRegistryServiceConnection
 
-    #- task: CacheBeta@0
-    #  inputs:
-    #    key: trivy | $(Agent.OS)
-    #    path: $(trivyCachePath)
-    #  displayName: Docker - Trivy Caching (Container Security Analysis by Aquasec)
-    #--cache-dir '$(trivyCachePath)'
-
-    - script: |
-        sudo apt-get -y install rpm
-        wget https://github.com/aquasecurity/trivy/releases/download/v0.1.6/trivy_0.1.6_Linux-64bit.deb
-        sudo dpkg -i trivy_0.1.6_Linux-64bit.deb
-      displayName: Docker - Trivy Installation (Container Security Analysis by Aquasec)
-
     - script: |
         docker build -t '$(dockerId)/$(dockerImageName):latest' ./src
       displayName: Docker - Build
 
     - script: |
         docker tag '$(dockerId)/$(dockerImageName):latest' '$(dockerId)/$(dockerImageName):$(Build.BuildNumber)'
-        docker tag '$(dockerId)/$(dockerImageName):latest' '$(dockerId)/$(dockerImageName):$(Build.SourceVersion)'
+        #docker tag '$(dockerId)/$(dockerImageName):latest' '$(dockerId)/$(dockerImageName):$(Build.SourceVersion)'
       displayName: Docker - Tag
+
+    - script: |
+        sudo apt-get -y install rpm
+        wget https://github.com/aquasecurity/trivy/releases/download/v0.1.6/trivy_0.1.6_Linux-64bit.deb
+        sudo dpkg -i trivy_0.1.6_Linux-64bit.deb
+      displayName: Docker - Trivy Installation (Container Security Analysis by Aquasec)
 
     - script: |
         trivy --only-update alpine '$(dockerId)/$(dockerImageName):$(Build.BuildNumber)'
@@ -72,4 +65,4 @@ stages:
         tags: |
           latest
           $(Build.BuildNumber)
-          $(Build.SourceVersion)
+          #$(Build.SourceVersion)

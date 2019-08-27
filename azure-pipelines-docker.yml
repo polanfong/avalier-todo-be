@@ -26,17 +26,20 @@ stages:
         echo dockerId: $(dockerId)
         echo tag: $(tag)
       displayName: Show variables
-    - task: Docker@2
-      displayName: Docker - Build
-      inputs:
-        command: build
-        repository: '$(dockerImageName)'
-        tags: |
-          latest
-          $(dockerImageLabel)
+    #- task: Docker@2
+    #  displayName: Docker - Build
+    #  inputs:
+    #    command: build
+    #    repository: '$(dockerImageName)'
+    #    tags: |
+    #      latest
+    #      $(dockerImageLabel)
     - script: |
-        docker image list
-      displayName: Docker - Debug
+        docker build -t 'avalier.azurecr.io/$(dockerImageName)' ./src
+      displayName: Docker - Build
+    - script: |
+        docker image list | grep avalier
+      displayName: Docker - List
     - task: Docker@2
       displayName: Docker - Login
       inputs:

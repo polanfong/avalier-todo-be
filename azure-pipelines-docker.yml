@@ -9,6 +9,7 @@ variables:
   vmImageName: 'ubuntu-latest'
   dockerId: 'avalier.azurecr.io'
   dockerImageName: 'avalier-todo-be'
+  trivyCachePath: '$(Pipeline.Workspace)/.cache/trivy'
 
 stages:
 - stage: CI
@@ -32,6 +33,12 @@ stages:
         command: login
         containerRegistry: dockerRegistryServiceConnection
 
+    - task: CacheBeta@0
+      inputs:
+        key: trivy | $(Agent.OS)
+        path: $(trivyCachePath)
+      displayName: Docker - Trivy Caching (Container Security Analysis by Aquasec)
+
     - script: |
         sudo apt-get -y install rpm
         wget https://github.com/aquasecurity/trivy/releases/download/v0.0.15/trivy_0.0.15_Linux-64bit.deb
@@ -43,7 +50,7 @@ stages:
       displayName: Docker - Build
 
     - script: |
-        trivy '$(dockerId)/$(dockerImageName):latest'
+        trivy --cache-dir '$(trivyCachePath)' '$(dockerId)/$(dockerImageName):$(Build.BuildNumber)'
       displayName: Docker - Trivy Execution (Container Security Analysis by Aquasec)
 
     - script: |

@@ -33,7 +33,9 @@ stages:
         containerRegistry: dockerRegistryServiceConnection
 
     - script: |
-        sudo apt-get -y install trivy
+        sudo apt-get -y install rpm
+        wget https://github.com/aquasecurity/trivy/releases/download/v0.0.15/trivy_0.0.15_Linux-64bit.deb
+        sudo dpkg -i trivy_0.0.15_Linux-64bit.deb
       displayName: Docker - Trivy Installation (Container Security Analysis by Aquasec)
 
     - script: |

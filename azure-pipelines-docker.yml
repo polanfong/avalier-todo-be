@@ -3,5 +3,12 @@ pool:
 
 container: ubuntu:16.04
 
+variables:
+  dockerId: 'avalier.azurecr.io'
+  dockerImageName: 'avalier-todo-be'
+  dockerImageLabel: '$(Build.BuildId)'
+  tag: '$(dockerId)/${dockerImageName}:$(dockerImageLabel)'
+  dockerRegistryServiceConnectionId: '{{ dockerRegistryServiceConnection }}'
+
 steps:
 - script: printenv

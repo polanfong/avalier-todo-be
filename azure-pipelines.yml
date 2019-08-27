@@ -31,14 +31,20 @@ stages:
       displayName: Docker - Tag
 
     - script: |
-        sudo apt-get -y install rpm
-        wget https://github.com/aquasecurity/trivy/releases/download/v0.1.6/trivy_0.1.6_Linux-64bit.deb
-        sudo dpkg -i trivy_0.1.6_Linux-64bit.deb
-      displayName: Docker - Trivy Installation (Container Security Analysis by Aquasec)
+        docker create --name test-stage $(docker images --filter "label=test=true" -q | head -1)
+        docker cp test-stage:/test ./test
+        docker rm test-stage
+      displayName: 'Docker - Extract Test Results'
 
-    - script: |
-        trivy --only-update alpine '$(dockerId)/$(dockerImageName):$(Build.BuildNumber)'
-      displayName: Docker - Trivy Execution (Container Security Analysis by Aquasec)
+    #- script: |
+    #    sudo apt-get -y install rpm
+    #    wget https://github.com/aquasecurity/trivy/releases/download/v0.1.6/trivy_0.1.6_Linux-64bit.deb
+    #    sudo dpkg -i trivy_0.1.6_Linux-64bit.deb
+    #  displayName: Docker - Trivy Installation (Container Security Analysis by Aquasec)
+
+    #- script: |
+    #    trivy --only-update alpine '$(dockerId)/$(dockerImageName):$(Build.BuildNumber)'
+    #  displayName: Docker - Trivy Execution (Container Security Analysis by Aquasec)
 
     - script: |
         docker image list | grep $(dockerId)

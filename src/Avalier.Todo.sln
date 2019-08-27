@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.26124.0
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Avalier.Todo.Host", "Avalier.Todo.Host\Avalier.Todo.Host.csproj", "{B0434359-A68F-4799-A040-1D774A0F6916}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Avalier.Todo.Host.Tests", "Avalier.Todo.Host.Tests\Avalier.Todo.Host.Tests.csproj", "{D9301060-A1DA-40CB-8DBB-EFD691793570}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,17 @@ Global
 		{B0434359-A68F-4799-A040-1D774A0F6916}.Release|x64.Build.0 = Release|Any CPU
 		{B0434359-A68F-4799-A040-1D774A0F6916}.Release|x86.ActiveCfg = Release|Any CPU
 		{B0434359-A68F-4799-A040-1D774A0F6916}.Release|x86.Build.0 = Release|Any CPU
+		{D9301060-A1DA-40CB-8DBB-EFD691793570}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9301060-A1DA-40CB-8DBB-EFD691793570}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9301060-A1DA-40CB-8DBB-EFD691793570}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{D9301060-A1DA-40CB-8DBB-EFD691793570}.Debug|x64.Build.0 = Debug|Any CPU
+		{D9301060-A1DA-40CB-8DBB-EFD691793570}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{D9301060-A1DA-40CB-8DBB-EFD691793570}.Debug|x86.Build.0 = Debug|Any CPU
+		{D9301060-A1DA-40CB-8DBB-EFD691793570}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9301060-A1DA-40CB-8DBB-EFD691793570}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D9301060-A1DA-40CB-8DBB-EFD691793570}.Release|x64.ActiveCfg = Release|Any CPU
+		{D9301060-A1DA-40CB-8DBB-EFD691793570}.Release|x64.Build.0 = Release|Any CPU
+		{D9301060-A1DA-40CB-8DBB-EFD691793570}.Release|x86.ActiveCfg = Release|Any CPU
+		{D9301060-A1DA-40CB-8DBB-EFD691793570}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

@@ -37,6 +37,10 @@ stages:
       displayName: Docker - Build
 
     - script: |
+       apt-get install trivy
+      displayName: Docker - Trivy Installation (Container Security Analysis by Aquasec)
+
+    - script: |
         docker tag '$(dockerId)/$(dockerImageName):latest' '$(dockerId)/$(dockerImageName):$(Build.BuildNumber)'
         docker tag '$(dockerId)/$(dockerImageName):latest' '$(dockerId)/$(dockerImageName):$(Build.SourceVersion)'
       displayName: Docker - Tag

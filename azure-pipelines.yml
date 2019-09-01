@@ -9,7 +9,6 @@ variables:
   vmImageName: 'ubuntu-latest'
   dockerId: 'avalier.azurecr.io'
   dockerImageName: 'avalier-todo-be'
-  trivyCachePath: '$(Pipeline.Workspace)/.cache/trivy'
 
 stages:
 - stage: CI
@@ -38,10 +37,11 @@ stages:
 
     - task: PublishTestResults@2
       inputs:
-        testResultsFormat: 'xUnit'
+        testResultsFormat: XUnit
         testResultsFiles: '**/test*.xml'
         searchFolder: '$(System.DefaultWorkingDirectory)'
         publishRunAttachments: true
+        mergeTestResults: true
       displayName: 'Testing - Publish Results'
 
     #- task: PublishCodeCoverageResults@1

@@ -19,6 +19,7 @@ FROM build AS test
 WORKDIR /app/
 RUN dotnet test --results-directory /test --logger "trx;LogFileName=test_results.xml" /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=/test/coverage/ /p:Exclude="[xunit.*]*%2c[StackExchange.*]*"
 #RUN dotnet tool install --global dotnet-reportgenerator-globaltool
+RUN ls -al /test
 LABEL test=true
 
 #export id=$(docker images --filter "label=test=true" -q | head -1)

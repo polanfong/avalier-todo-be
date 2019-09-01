@@ -17,7 +17,8 @@ RUN dotnet publish -c Release -o out -r linux-musl-x64 /p:PublishSingleFile=true
 ## Test ##
 FROM build AS test
 WORKDIR /app/
-RUN dotnet test --results-directory /test --logger "trx;LogFileName=test_results.xml" /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=/test/coverage/ /p:Exclude="[xunit.*]*%2c[StackExchange.*]*"
+RUN dotnet test --test-adapter-path:. --logger:xunit --results-directory /test
+#RUN dotnet test --results-directory /test --logger "trx;LogFileName=test_results.xml" /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=/test/coverage/ /p:Exclude="[xunit.*]*%2c[StackExchange.*]*"
 #RUN dotnet tool install --global dotnet-reportgenerator-globaltool
 RUN ls -al /test
 LABEL test=true

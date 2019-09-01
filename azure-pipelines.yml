@@ -38,7 +38,7 @@ stages:
     - task: PublishTestResults@2
       inputs:
         testResultsFormat: XUnit
-        testResultsFiles: '**/test*.xml'
+        testResultsFiles: '**/Test*.xml'
         searchFolder: '$(System.DefaultWorkingDirectory)'
         publishRunAttachments: true
         mergeTestResults: true

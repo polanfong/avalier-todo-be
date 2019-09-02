@@ -25,7 +25,7 @@ stages:
     #  inputs:
     #    version: '3.0.100' # replace this value with the version that you need for your project
 
-    - script: dotnet restore
+    #- script: dotnet restore
 
     - task: DotNetCoreCLI@2
       displayName: Build

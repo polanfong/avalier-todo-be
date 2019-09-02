@@ -21,9 +21,11 @@ stages:
       vmImage: $(vmImageName)
     steps:
 
-    - task: DotNetCoreInstaller@0
+    - task: UseDotNet@2
+      displayName: 'Use dotnet sdk 3.x'
       inputs:
-        version: '3.0.100' # replace this value with the version that you need for your project
+        version: 3.x
+        includePreviewVersions: true
 
     - task: DotNetCoreCLI@2
       displayName: Build

@@ -1,0 +1,58 @@
+#https://docs.microsoft.com/en-us/azure/devops/pipelines/ecosystems/dotnet-core?view=azure-devops
+
+trigger:
+- master
+
+resources:
+- repo: self
+
+variables:
+  vmImageName: 'ubuntu-latest'
+  dockerId: 'avalier.azurecr.io'
+  dockerImageName: 'avalier-todo-be'
+
+stages:
+- stage: CI
+  displayName: Build and push
+  jobs:  
+  - job: Build
+    displayName: Build
+    pool:
+      vmImage: $(vmImageName)
+    steps:
+
+    - task: DotNetCoreInstaller@0
+      inputs:
+        version: '3.0.100-preview8-013656' # replace this value with the version that you need for your project
+
+    - script: dotnet restore
+
+    - task: DotNetCoreCLI@2
+      displayName: Build
+      inputs:
+        command: build
+        projects: '**/*.csproj'
+        arguments: '--configuration Release' # Update this to match your need
+
+    - task: DotNetCoreCLI@2
+      inputs:
+        command: test
+        projects: '**/*.Tests/*.csproj'
+        arguments: '--configuration $(buildConfiguration)'
+
+    #- script: dotnet test <test-project> --logger trx
+    - task: PublishTestResults@2
+      condition: succeededOrFailed()
+      inputs:
+        testRunner: XUnit
+        testResultsFiles: '**/*.trx'
+
+    #- task: PublishCodeCoverageResults@1
+    #  inputs:
+    #    codeCoverageTool: 'cobertura'
+    #    summaryFileLocation: '$(System.DefaultWorkingDirectory)/test/coverage/coverage.cobertura.xml'
+    #    reportDirectory: '$(System.DefaultWorkingDirectory)/test/coverage/reports'
+    #  displayName: 'Coverage - Publish Results'
+
+
+   

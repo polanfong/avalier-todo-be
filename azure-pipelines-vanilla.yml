@@ -21,9 +21,9 @@ stages:
       vmImage: $(vmImageName)
     steps:
 
-    - task: DotNetCoreInstaller@0
-      inputs:
-        version: '3.0.100-preview8-013656' # replace this value with the version that you need for your project
+    #- task: DotNetCoreInstaller@0
+    #  inputs:
+    #    version: '3.0.100' # replace this value with the version that you need for your project
 
     - script: dotnet restore
 
@@ -31,7 +31,7 @@ stages:
       displayName: Build
       inputs:
         command: build
-        projects: '**/*.csproj'
+        projects: 'src/*.sln'
         arguments: '--configuration Release' # Update this to match your need
 
     - task: DotNetCoreCLI@2

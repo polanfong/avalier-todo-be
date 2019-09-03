@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 using Autofac.Extensions.DependencyInjection;
@@ -11,6 +12,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Avalier.Todo.Host
 {
+    [ExcludeFromCodeCoverage]
     public class Program
     {
         public static void Main(string[] args)

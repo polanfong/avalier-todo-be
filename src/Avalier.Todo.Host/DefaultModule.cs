@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 using Autofac;
@@ -6,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace Avalier.Todo.Host
 {
+    [ExcludeFromCodeCoverage]
     public class DefaultModule : Autofac.Module
     {
         public IConfiguration Configuration { get; set; }

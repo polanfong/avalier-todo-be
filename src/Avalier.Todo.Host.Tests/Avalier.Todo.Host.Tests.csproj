@@ -23,4 +23,8 @@
     <ProjectReference Include="..\Avalier.Todo.Host\Avalier.Todo.Host.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Controllers\Todo" />
+  </ItemGroup>
+
 </Project>

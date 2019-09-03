@@ -38,7 +38,7 @@ stages:
       inputs:
         command: test
         projects: '**/*.Tests/*.csproj'
-        arguments: '--configuration $(buildConfiguration)'
+        arguments: '--configuration $(buildConfiguration) /p:CollectCoverage=true /p:CoverageOutputFormat=cobertura /p:CoverletOutput=$(System.DefaultWorkingDirectory)/TestResults/Coverage/'
 
     #- script: dotnet test <test-project> --logger trx
     - task: PublishTestResults@2
@@ -47,12 +47,12 @@ stages:
         testRunner: XUnit
         testResultsFiles: '**/*.trx'
 
-    #- task: PublishCodeCoverageResults@1
-    #  inputs:
-    #    codeCoverageTool: 'cobertura'
-    #    summaryFileLocation: '$(System.DefaultWorkingDirectory)/test/coverage/coverage.cobertura.xml'
-    #    reportDirectory: '$(System.DefaultWorkingDirectory)/test/coverage/reports'
-    #  displayName: 'Coverage - Publish Results'
+    - task: PublishCodeCoverageResults@1
+      inputs:
+        codeCoverageTool: 'cobertura'
+        summaryFileLocation: '$(System.DefaultWorkingDirectory)/TestResults/Coverage/coverage.json'
+        reportDirectory: '$(System.DefaultWorkingDirectory)/TestResults/Coverage/reports'
+      displayName: 'Coverage - Publish Results'
 
 
    

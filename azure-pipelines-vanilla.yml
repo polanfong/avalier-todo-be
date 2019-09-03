@@ -28,7 +28,6 @@ stages:
         includePreviewVersions: true
 
     - task: DotNetCoreCLI@2
-      displayName: Build
       inputs:
         command: build
         projects: 'src/Avalier.Todo.sln'

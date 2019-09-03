@@ -1,7 +1,24 @@
 #https://docs.microsoft.com/en-us/azure/devops/pipelines/ecosystems/dotnet-core?view=azure-devops
 
 trigger:
-- master
+  branches:
+
+resources:
+- repo: self
+
+stages:
+- stage: CI
+  displayName: Build and push
+  jobs:  
+  - job: Build
+    displayName: Build
+    pool:
+      vmImage: $(vmImageName)
+    steps:
+    - template: templates/dotnet-build-and-test.yml
+    
+trigger:
+  tags:
 
 resources:
 - repo: self
@@ -21,3 +38,4 @@ stages:
       vmImage: $(vmImageName)
     steps:
     - template: templates/dotnet-build-and-test.yml
+    

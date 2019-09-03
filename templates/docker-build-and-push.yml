@@ -1,0 +1,35 @@
+
+variables:
+  vmImageName: 'ubuntu-latest'
+  dockerId: 'avalier.azurecr.io'
+  dockerImageName: 'avalier-todo-be'
+
+steps:
+- script: |
+    docker build -t '$(dockerId)/$(dockerImageName):latest' ./src
+  displayName: Docker - Build
+
+- script: |
+    docker tag '$(dockerId)/$(dockerImageName):latest' '$(dockerId)/$(dockerImageName):$(Build.BuildNumber)'
+    #docker tag '$(dockerId)/$(dockerImageName):latest' '$(dockerId)/$(dockerImageName):$(Build.SourceVersion)'
+  displayName: Docker - Tag
+
+- script: |
+    docker image list | grep $(dockerId)
+  displayName: Docker - List
+
+- task: Docker@2
+  displayName: Docker - Login
+  inputs:
+    command: login
+    containerRegistry: dockerRegistryServiceConnection
+
+- task: Docker@2
+  displayName: Docker - Push
+  inputs:
+    command: push
+    containerRegistry: dockerRegistryServiceConnection
+    repository: '$(dockerImageName)'
+    tags: |
+      latest
+      $(Build.BuildNumber)

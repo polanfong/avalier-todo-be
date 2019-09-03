@@ -48,13 +48,11 @@ stages:
       condition: succeededOrFailed()
       inputs:
         testRunner: XUnit
-        testResultsFiles: '**/*.trx'
       displayName: 'Publish Test Results'
 
     - task: PublishCodeCoverageResults@1
       inputs:
         codeCoverageTool: 'cobertura'
         summaryFileLocation: '$(Agent.TempDirectory)/Coverage/coverage.cobertura.xml'
-        reportDirectory: '$(Agent.TempDirectory)/Coverage/reports'
       displayName: 'Publish Coverage Results'
 

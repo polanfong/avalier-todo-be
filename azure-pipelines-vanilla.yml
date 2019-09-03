@@ -33,29 +33,29 @@ stages:
         command: build
         projects: 'src/Avalier.Todo.sln'
         arguments: '--configuration Release' # Update this to match your need
+      displayName: 'Building'
 
     - task: DotNetCoreCLI@2
       inputs:
         command: test
         projects: '**/*.Tests/*.csproj'
         arguments: '--configuration $(buildConfiguration) /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=$(Agent.TempDirectory)/Coverage/'
+      displayName: 'Testing'
 
-    - script: dotnet tool install dotnet-reportgenerator-globaltool --global
-
-    - script: reportgenerator -reports:$(Agent.TempDirectory)/Coverage/coverage.cobertura.xml -targetdir:$(Agent.TempDirectory)/Coverage/Reports
+    #- script: dotnet tool install dotnet-reportgenerator-globaltool --global
+    #- script: reportgenerator -reports:$(Agent.TempDirectory)/Coverage/coverage.cobertura.xml -targetdir:$(Agent.TempDirectory)/Coverage/Reports
         
     - task: PublishTestResults@2
       condition: succeededOrFailed()
       inputs:
         testRunner: XUnit
         testResultsFiles: '**/*.trx'
+      displayName: 'Publish Test Results'
 
     - task: PublishCodeCoverageResults@1
       inputs:
         codeCoverageTool: 'cobertura'
         summaryFileLocation: '$(Agent.TempDirectory)/Coverage/coverage.cobertura.xml'
         reportDirectory: '$(Agent.TempDirectory)/Coverage/reports'
-      displayName: 'Coverage - Publish Results'
+      displayName: 'Publish Coverage Results'
 
-
-   

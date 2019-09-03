@@ -17,7 +17,10 @@ cd Avalier.Todo.Host.Tests
 dotnet add reference ../Avalier.Todo.Host/Avalier.Todo.Host.csproj
 
 # Add dependencies #
+dotnet add package Moq
 dotnet add package Shouldly
+dotnet add package coverlet.msbuild
+dotnet add package dotnet-reportgenerator-cli
 ```
 
 Create file NoopTest.cs...

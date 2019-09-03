@@ -38,9 +38,12 @@ stages:
       inputs:
         command: test
         projects: '**/*.Tests/*.csproj'
-        arguments: '--configuration $(buildConfiguration) /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=$(System.DefaultWorkingDirectory)/TestResults/Coverage/'
+        arguments: '--configuration $(buildConfiguration) --results-directory $(System.DefaultWorkingDirectory)/TestReports /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=$(System.DefaultWorkingDirectory)/TestResults/Coverage/'
 
-    #- script: dotnet test <test-project> --logger trx
+    - script: dotnet tool install dotnet-reportgenerator-globaltool --global
+
+    - script: reportgenerator -reports:$(System.DefaultWorkingDirectory)/TestResults/Coverage/coverage.cobertura.xml -targetdir:$(System.DefaultWorkingDirectory)/TestResults/Coverage/Reports
+        
     - task: PublishTestResults@2
       condition: succeededOrFailed()
       inputs:
@@ -50,7 +53,7 @@ stages:
     - task: PublishCodeCoverageResults@1
       inputs:
         codeCoverageTool: 'cobertura'
-        summaryFileLocation: '$(System.DefaultWorkingDirectory)/TestResults/Coverage/coverage.json'
+        summaryFileLocation: '$(System.DefaultWorkingDirectory)/TestResults/Coverage/coverage.cobertura.xml'
         reportDirectory: '$(System.DefaultWorkingDirectory)/TestResults/Coverage/reports'
       displayName: 'Coverage - Publish Results'
 

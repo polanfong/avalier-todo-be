@@ -1,4 +1,5 @@
 #https://docs.microsoft.com/en-us/azure/devops/pipelines/ecosystems/dotnet-core?view=azure-devops
+#condition: and(succeeded(), eq(variables['build.sourceBranch'], 'refs/heads/master'))
 
 name: $(Build.SourceBranch)-$(date:yyyyMMdd)$(rev:.r)
 
@@ -13,16 +14,14 @@ variables:
   dockerId: 'avalier.azurecr.io'
   dockerImageName: 'avalier-todo-be'
 
-stages:
-- stage: CI
-  #displayName: Build & Test
-  jobs:  
-  - job: Build & Test
-    displayName: Build & Test
-    steps:
-    - template: templates/dotnet-build-and-test.yml
-  - job: Create Docker Image
-    dependsOn: Build & Test
-    condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
-    steps:
-    -script: echo Create Docker Image
+jobs:  
+- job: BuildAndTest
+  displayName: Build & Test
+  steps:
+  - template: templates/dotnet-build-and-test.yml
+- job: Create Docker Image
+  dependsOn: BuildAndTest
+  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+
+  steps:
+  -script: echo Create Docker Image

@@ -18,7 +18,8 @@ jobs:
     vmImage: $(vmImageName)
   steps:
   - template: templates/dotnet-build-and-test.yml
-- job: Create Docker Image
+- job: CreateDockerImage
+  displayName: Create Docker Image
   dependsOn: BuildAndTest
   condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
   pool:

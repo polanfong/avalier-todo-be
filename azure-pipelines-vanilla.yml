@@ -10,8 +10,6 @@ trigger:
   tags:
     include:
     - '*'
-  pr:
-  - '*'
 
 resources:
 - repo: self

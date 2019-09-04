@@ -3,9 +3,6 @@
 
 name: $(Build.SourceBranch)-$(date:yyyyMMdd)$(rev:.r)
 
-pool:
-  vmImage: $(vmImageName)
-
 resources:
 - repo: self
 
@@ -17,11 +14,14 @@ variables:
 jobs:  
 - job: BuildAndTest
   displayName: Build & Test
+  pool:
+    vmImage: $(vmImageName)
   steps:
   - template: templates/dotnet-build-and-test.yml
 - job: Create Docker Image
   dependsOn: BuildAndTest
   condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
-
+  pool:
+    vmImage: $(vmImageName)
   steps:
   -script: echo Create Docker Image

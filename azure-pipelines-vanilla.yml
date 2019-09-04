@@ -3,6 +3,16 @@
 
 name: $(Build.SourceBranch)-$(date:yyyyMMdd)$(rev:.r)
 
+trigger:
+  branches:
+    include:
+    - '*'
+  tags:
+    include:
+    - '*'
+  pr:
+  - '*'
+
 resources:
 - repo: self
 

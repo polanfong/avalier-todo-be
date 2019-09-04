@@ -25,4 +25,6 @@ jobs:
   pool:
     vmImage: $(vmImageName)
   steps:
-  - script: echo Create Docker Image
+  - script: |
+      echo Create Docker Image
+      echo Build.SourceBranch: $(Build.SourceBranch)

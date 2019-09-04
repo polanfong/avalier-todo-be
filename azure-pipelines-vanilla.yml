@@ -21,7 +21,7 @@ jobs:
 - job: CreateDockerImage
   displayName: Create Docker Image
   dependsOn: BuildAndTest
-  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest')) #, startsWith(variables['Build.Reason'], 'refs/tags/')
   pool:
     vmImage: $(vmImageName)
   steps:

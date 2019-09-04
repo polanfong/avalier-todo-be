@@ -24,7 +24,15 @@ jobs:
   condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest')) #, startsWith(variables['Build.Reason'], 'refs/tags/')
   pool:
     vmImage: $(vmImageName)
+  variables:
+    label: ''
   steps:
   - script: |
       echo Create Docker Image
       echo Build.SourceBranch: $(Build.SourceBranch)
+      label=$(git describe --tags)
+      echo Label: $label
+      echo "##vso[task.setvariable variable=label;]$label"
+  - script: |
+      echo Label: $(label)
+      

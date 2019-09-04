@@ -1,24 +1,9 @@
 #https://docs.microsoft.com/en-us/azure/devops/pipelines/ecosystems/dotnet-core?view=azure-devops
 
-trigger:
-  branches:
+name: $(Build.SourceBranch)-$(date:yyyyMMdd)$(rev:.r)
 
-resources:
-- repo: self
-
-stages:
-- stage: CI
-  displayName: Build and push
-  jobs:  
-  - job: Build
-    displayName: Build
-    pool:
-      vmImage: $(vmImageName)
-    steps:
-    - template: templates/dotnet-build-and-test.yml
-    
-trigger:
-  tags:
+pool:
+  vmImage: $(vmImageName)
 
 resources:
 - repo: self
@@ -30,12 +15,14 @@ variables:
 
 stages:
 - stage: CI
-  displayName: Build and push
+  #displayName: Build & Test
   jobs:  
-  - job: Build
-    displayName: Build
-    pool:
-      vmImage: $(vmImageName)
+  - job: Build & Test
+    displayName: Build & Test
     steps:
     - template: templates/dotnet-build-and-test.yml
-    
+  - job: Create Docker Image
+    dependsOn: Build & Test
+    condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+    steps:
+    -script: echo Create Docker Image

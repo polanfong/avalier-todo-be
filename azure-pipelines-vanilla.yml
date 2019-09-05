@@ -39,7 +39,8 @@ jobs:
       echo Extracting Git Tag
       echo Build.SourceBranch: $(Build.SourceBranch)
       # Replace "refs/tags/"" with ""
-      TagName=${Build.SourceBranch/refs\/tags\//}
+      BuildSourceBranch=$(Build.SourceBranch)
+      TagName=${BuildSourceBranch/refs\/tags\//}
       echo TagName: $TagName
       # Export TagName
       echo "##vso[task.setvariable variable=tagName;]$TagName"

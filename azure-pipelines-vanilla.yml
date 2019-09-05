@@ -42,7 +42,7 @@ jobs:
       echo TagName: $dockerTagName
       # Export TagName
       echo "##vso[task.setvariable variable=dockerTagName;]$dockerTagName"
-  - template: templates/dotnet-build-and-test.yml
+  - template: templates/docker-build-and-push.yml
     parameters:
       dockerId: $(dockerId)
       dockerTagName: $(dockerTagName)

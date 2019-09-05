@@ -16,7 +16,7 @@ steps:
   displayName: 'Building'
 
 - task: WhiteSource Bolt@19
-  inputs: $(Build.SourcesDirectory)
+  #inputs: $(Build.SourcesDirectory)
 
 - task: DotNetCoreCLI@2
   inputs:

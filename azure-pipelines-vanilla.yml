@@ -1,7 +1,7 @@
 #https://docs.microsoft.com/en-us/azure/devops/pipelines/ecosystems/dotnet-core?view=azure-devops
 #condition: and(succeeded(), eq(variables['build.sourceBranch'], 'refs/heads/master'))
 
-name: $(Build.SourceBranch)-$(date:yyyyMMdd)$(rev:.r)
+name: $(date:yyyyMMdd)$(rev:.r)-$(Build.SourceBranch)
 
 trigger:
   branches:

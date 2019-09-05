@@ -29,18 +29,20 @@ jobs:
 - job: CreateDockerImage
   displayName: Create Docker Image
   dependsOn: BuildAndTest
-  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest')) #, startsWith(variables['Build.Reason'], 'refs/tags/')
+  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest')) #, startsWith(variables['Build.SourceBranch'], 'refs/tags/')
   pool:
     vmImage: $(vmImageName)
   variables:
     label: ''
   steps:
   - script: |
-      echo Create Docker Image
+      echo Extracting Git Tag
       echo Build.SourceBranch: $(Build.SourceBranch)
-      label=$(git describe --tags)
-      echo Label: $label
-      echo "##vso[task.setvariable variable=label;]$label"
+      # Replace "refs/tags/"" with ""
+      TagName=${Build.SourceBranch/refs\/tags\//}
+      echo TagName: $TagName
+      # Export TagName
+      echo "##vso[task.setvariable variable=tagName;]$TagName"
   - script: |
-      echo Label: $(label)
+      echo TagName: $(TagName)
       

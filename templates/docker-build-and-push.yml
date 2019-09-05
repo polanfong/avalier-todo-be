@@ -1,8 +1,5 @@
 
 parameters:
-  runExtendedTests: 'false'  # defaults for any parameters that aren't specified
-
-parameters:
   dockerId: 'avalier.azurecr.io'
   dockerTagName: ''
   dockerImageName: 'avalier-todo-be'

@@ -1,19 +1,29 @@
 
 parameters:
-  dockerId: 'avalier.azurecr.io'
+  dockerId: ''
   dockerTagName: ''
-  dockerImageName: 'avalier-todo-be'
+  dockerImageName: ''
 
 steps:
-- script: |
-    docker build -t '$(dockerId)/$(dockerImageName):latest' ./src
-  displayName: Docker - Build
 
 - script: |
-    #docker tag '$(dockerId)/$(dockerImageName):latest' '$(dockerId)/$(dockerImageName):$(Build.BuildNumber)'
-    #if [ ! -z "$(dockerTagName)" ]; then
-      docker tag '$(dockerId)/$(dockerImageName):latest' '$(dockerId)/$(dockerImageName):$(dockerImageName)'
-    #fi
+    if [ ! -z "$(dockerId)" ]; then
+      echo Parameter not specified: dockerId
+    fi
+    if [ ! -z "$(dockerTagName)" ]; then
+      echo Parameter not specified: dockerTagName
+    fi
+    if [ ! -z "$(dockerImageName)" ]; then
+      echo Parameter not specified: dockerImageName
+    fi
+  displayName: Parameter Validation
+
+- script: |
+    docker build -t '$(dockerId)/$(dockerImageName):latest' ./src
+  displayName: Docker - Build & Tag
+
+- script: |
+    docker tag '$(dockerId)/$(dockerImageName):latest' '$(dockerId)/$(dockerImageName):$(dockerTagName)'
   displayName: Docker - Tag
 
 - script: |

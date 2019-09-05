@@ -1,5 +1,5 @@
 #https://docs.microsoft.com/en-us/azure/devops/pipelines/ecosystems/dotnet-core?view=azure-devops
-#condition: and(succeeded(), eq(variables['build.sourceBranch'], 'refs/heads/master'))
+#https://www.azuredevopslabs.com/labs/vstsextend/sonarqube/
 
 name: $(date:yyyyMMdd)$(rev:.r)-$(Build.SourceBranch)
 
@@ -36,14 +36,14 @@ jobs:
     label: ''
   steps:
   - script: |
-      echo Extracting Git Tag
-      echo Build.SourceBranch: $(Build.SourceBranch)
       # Replace "refs/tags/"" with ""
       BuildSourceBranch=$(Build.SourceBranch)
-      TagName=${BuildSourceBranch/refs\/tags\//}
-      echo TagName: $TagName
+      dockerTagName=${BuildSourceBranch/refs\/tags\//}
+      echo TagName: $dockerTagName
       # Export TagName
-      echo "##vso[task.setvariable variable=tagName;]$TagName"
-  - script: |
-      echo TagName: $(TagName)
-      
+      echo "##vso[task.setvariable variable=dockerTagName;]$dockerTagName"
+  - template: templates/dotnet-build-and-test.yml
+    parameters:
+      dockerId: $(dockerId)
+      dockerTagName: $(dockerTagName)
+      dockerImageName: $(dockerImageName)

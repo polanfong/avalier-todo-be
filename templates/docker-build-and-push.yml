@@ -1,7 +1,10 @@
 
-variables:
-  vmImageName: 'ubuntu-latest'
+parameters:
+  runExtendedTests: 'false'  # defaults for any parameters that aren't specified
+
+parameters:
   dockerId: 'avalier.azurecr.io'
+  dockerTagName: ''
   dockerImageName: 'avalier-todo-be'
 
 steps:
@@ -11,7 +14,9 @@ steps:
 
 - script: |
     docker tag '$(dockerId)/$(dockerImageName):latest' '$(dockerId)/$(dockerImageName):$(Build.BuildNumber)'
-    #docker tag '$(dockerId)/$(dockerImageName):latest' '$(dockerId)/$(dockerImageName):$(Build.SourceVersion)'
+    if [ ! -z "$(tagName)" ]; then
+      docker tag '$(dockerId)/$(dockerImageName):latest' '$(dockerId)/$(dockerImageName):$(tagName)'
+    fi
   displayName: Docker - Tag
 
 - script: |
@@ -43,3 +48,4 @@ steps:
     tags: |
       latest
       $(Build.BuildNumber)
+      $(dockerTagName)

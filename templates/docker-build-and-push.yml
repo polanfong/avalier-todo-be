@@ -11,8 +11,8 @@ steps:
 
 - script: |
     #docker tag '$(dockerId)/$(dockerImageName):latest' '$(dockerId)/$(dockerImageName):$(Build.BuildNumber)'
-    #if [ ! -z "$(tagName)" ]; then
-      docker tag '$(dockerId)/$(dockerImageName):latest' '$(dockerId)/$(dockerImageName):$(tagName)'
+    #if [ ! -z "$(dockerTagName)" ]; then
+      docker tag '$(dockerId)/$(dockerImageName):latest' '$(dockerId)/$(dockerImageName):$(dockerImageName)'
     #fi
   displayName: Docker - Tag
 

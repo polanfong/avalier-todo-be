@@ -15,7 +15,8 @@ steps:
     arguments: '--configuration Release' # Update this to match your need
   displayName: 'Building'
 
-- task: whitesource.ws-bolt.bolt.wss.WhiteSource Bolt@1
+- task: WhiteSource Bolt@19
+  inputs: $(Build.SourcesDirectory)
 
 - task: DotNetCoreCLI@2
   inputs:

@@ -10,10 +10,10 @@ steps:
   displayName: Docker - Build
 
 - script: |
-    docker tag '$(dockerId)/$(dockerImageName):latest' '$(dockerId)/$(dockerImageName):$(Build.BuildNumber)'
-    if [ ! -z "$(tagName)" ]; then
+    #docker tag '$(dockerId)/$(dockerImageName):latest' '$(dockerId)/$(dockerImageName):$(Build.BuildNumber)'
+    #if [ ! -z "$(tagName)" ]; then
       docker tag '$(dockerId)/$(dockerImageName):latest' '$(dockerId)/$(dockerImageName):$(tagName)'
-    fi
+    #fi
   displayName: Docker - Tag
 
 - script: |
@@ -44,5 +44,4 @@ steps:
     repository: '$(dockerImageName)'
     tags: |
       latest
-      $(Build.BuildNumber)
       $(dockerTagName)
